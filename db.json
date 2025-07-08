@@ -1,0 +1,56 @@
+{
+  "reports": [
+    {
+      "id": "1",
+      "nama": "Farisah",
+      "barang": "Laptop ASUS",
+      "deskripsi": "Warna hitam, ukuran 14 inch, ada stiker 'Hello Kitty' di cover depan",
+      "lokasi": "Perpustakaan",
+      "telepon": "08123456789",
+      "tanggal": "2025-07-01",
+      "userId": "farisah"
+    },
+    {
+      "id": "2",
+      "nama": "Raka",
+      "barang": "Dompet Kulit Coklat",
+      "deskripsi": "Dompet berbahan kulit asli, warna coklat tua, terdapat logo BCA di bagian dalam",
+      "lokasi": "Kantin Fakultas",
+      "telepon": "082198765432",
+      "tanggal": "2025-07-03",
+      "userId": "raka"
+    },
+    {
+      "id": "3",
+      "nama": "Lina",
+      "barang": "Payung Biru",
+      "deskripsi": "Payung lipat warna biru muda, pegangan warna putih, bagian ujung sedikit bengkok",
+      "lokasi": "Musala Gedung B",
+      "telepon": "085712345678",
+      "tanggal": "2025-07-02",
+      "userId": "lina"
+    },
+    {
+      "id": "5e7d",
+      "nama": "hiooo",
+      "barang": "kunci",
+      "deskripsi": "wfdywfudwj",
+      "lokasi": "liu",
+      "telepon": "098775",
+      "tanggal": "2025-07-05",
+      "gambar": "",
+      "userId": "tata"
+    },
+    {
+      "id": "f148",
+      "nama": "caca",
+      "barang": "buku binder",
+      "deskripsi": "warna pink, ada stiker labubu",
+      "lokasi": "sekitar kantin A",
+      "telepon": "087657899",
+      "tanggal": "2025-07-06",
+      "gambar": "",
+      "userId": "caca"
+    }
+  ]
+}

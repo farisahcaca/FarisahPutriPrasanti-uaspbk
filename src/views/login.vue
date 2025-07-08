@@ -1,97 +1,153 @@
 <template>
-  <div class="login">
-    <h2>Login</h2>
-    <form @submit.prevent="handleLogin">
-      <input type="email" v-model="email" placeholder="Email" required />
-      <input type="password" v-model="password" placeholder="Password" required />
-      <button type="submit">Login</button>
-    </form>
-    <p v-if="error" style="color:#d17f46; margin-top: 10px;">{{ error }}</p>
+  <div class="login-container">
+    <div class="login-card">
+      <transition name="fade-slide">
+        <div class="login-content">
+          <h2>🔐 Login ke LostNFound</h2>
+          <form @submit.prevent="login" class="login-form">
+            <div class="input-group">
+              <input v-model="username" type="text" id="username" required />
+              <label for="username">Username</label>
+            </div>
+            <div class="input-group">
+              <input v-model="password" type="password" id="password" required />
+              <label for="password">Password</label>
+            </div>
+            <button type="submit">Masuk</button>
+          </form>
+        </div>
+      </transition>
+    </div>
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      email: '',
-      password: '',
-      error: ''
-    };
-  },
-  methods: {
-    handleLogin() {
-      localStorage.setItem('isLoggedIn', true);
-      this.error = '';
-      this.$router.push('/dashboard');
-    }
-  }
-};
+<script setup>
+import { ref } from 'vue'
+import { useUserStore } from '../stores/user'
+import { useRouter } from 'vue-router'
+
+const username = ref('')
+const password = ref('')
+const userStore = useUserStore()
+const router = useRouter()
+
+const login = () => {
+  userStore.setUser(username.value)
+  router.push('/')
+}
 </script>
 
 <style scoped>
-.login {
-  max-width: 380px;
-  margin: 80px auto;
-  padding: 30px 60px;
-  background: linear-gradient(135deg, #2e1e0f, #1a1a1a);
-  border-radius: 18px;
-  box-shadow: 0 8px 20px rgba(193, 130, 60, 0.6);
-  text-align: center;
-  color: #d9b382; /* cokelat keemasan */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  box-sizing: border-box;
+/* Container Pastel Background */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0f7fa, #fce4ec);
+  padding: 20px;
 }
 
-.login h2 {
-  margin-bottom: 28px;
-  font-weight: 700;
-  font-size: 2rem;
-  color: #d9b382;
-  text-shadow: 0 0 6px #b17a35;
-}
-
-input {
-  display: block;
+/* Login Card */
+.login-card {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   width: 100%;
-  margin: 15px 0;
-  padding: 14px 16px;
-  border: none;
-  border-radius: 12px;
-  background-color: #3d2f15; /* coklat tua */
-  color: #f5f5f5;
-  font-size: 1.1em;
-  box-shadow: inset 0 0 8px rgba(255, 215, 130, 0.2);
-  transition: background-color 0.3s ease;
+  max-width: 420px;
+  animation: fadeUp 0.8s ease-out;
 }
 
-input::placeholder {
-  color: #c4a169;
+/* Judul */
+h2 {
+  color: #607d8b;
+  margin-bottom: 30px;
+  font-size: 1.8rem;
 }
 
-input:focus {
+/* Form */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+/* Input Group Floating Label */
+.input-group {
+  position: relative;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #cfd8dc;
+  border-radius: 10px;
   outline: none;
-  background-color: #5a4220;
-  box-shadow: 0 0 8px #d9b382;
-  color: #fff;
+  background: #f1f8ff;
+  transition: border 0.3s;
 }
 
+.input-group input:focus {
+  border-color: #90caf9;
+}
+
+.input-group label {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9e9e9e;
+  font-size: 0.95rem;
+  pointer-events: none;
+  transition: 0.3s ease;
+  background: white;
+  padding: 0 6px;
+}
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown):valid + label {
+  top: -10px;
+  left: 10px;
+  font-size: 0.75rem;
+  color: #64b5f6;
+}
+
+/* Button Pastel Style */
 button {
-  margin-top: 20px;
-  padding: 14px 28px;
-  background: #a9744a; /* cokelat hangat */
-  color: white;
+  background-color: #81d4fa;
+  color: #ffffff;
+  padding: 12px;
+  font-size: 1rem;
   border: none;
-  border-radius: 12px;
-  font-weight: 700;
+  border-radius: 10px;
   cursor: pointer;
-  font-size: 1.15em;
-  box-shadow: 0 5px 15px rgba(169, 116, 74, 0.6);
-  transition: background 0.4s ease;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 button:hover {
-  background: #d3a56e;
-  box-shadow: 0 8px 20px rgba(211, 165, 110, 0.8);
+  background-color: #4fc3f7;
+  transform: scale(1.03);
+}
+
+/* Animasi Masuk */
+.fade-slide-enter-active {
+  transition: all 0.6s ease;
+}
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>

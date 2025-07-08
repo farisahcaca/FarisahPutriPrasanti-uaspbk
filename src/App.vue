@@ -1,92 +1,112 @@
 <template>
-  <div class="app-layout">
-    <!-- Navbar global, kecuali halaman login -->
-    <header v-if="route.path !== '/login'" class="navbar">
-      <nav class="nav-links">
-        <router-link to="/dashboard">Home</router-link>
-        <router-link to="/booking">Booking Ticket</router-link>
-        <router-link to="/pesanan">Rincian</router-link>
-        <router-link to="/about-konser">About Concert</router-link>
-      </nav>
-    </header>
+  <div class="layout">
+    <aside v-if="showSidebar">
+      <h2>📘 LostNFound Brataly University</h2>
+      <router-link to="/">🏠 Beranda</router-link>
+      <router-link to="/all">📋 Laporan Umum</router-link>
+      <router-link to="/mine">🧾 Laporan Saya</router-link>
+      <router-link to="/add">➕ Buat Laporan</router-link>
 
-    <!-- Konten halaman -->
-    <main class="content">
+      <!-- 🔓 Tombol Logout -->
+      <button class="logout-btn" @click="handleLogout">🚪 Logout</button>
+    </aside>
+
+    <main>
       <router-view />
     </main>
   </div>
 </template>
 
-<script setup lang="ts">
-import { useRoute } from 'vue-router'
+<script setup>
+import { useRoute, useRouter } from 'vue-router'
+import { computed } from 'vue'
+import { useUserStore } from './stores/user'
+
 const route = useRoute()
+const router = useRouter()
+const userStore = useUserStore()
+
+const showSidebar = computed(() => route.path !== '/login')
+
+const handleLogout = () => {
+  userStore.logout()
+  router.push('/login')
+}
 </script>
 
 <style scoped>
-/* Struktur Global */
-.app-layout {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(to right, #082045, #234364);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* === SIDEBAR STYLING WITH CURVE === */
+aside {
+  width: 230px;
+  background-color: #051835;
+  color: white;
+  padding: 30px 20px;
   display: flex;
   flex-direction: column;
-  background-color: #0d0d0d;
-  font-family: 'Segoe UI', sans-serif;
-  color: #f5f5f5;
-  margin: 0;
+  gap: 20px;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  box-shadow: 3px 0 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  height: 100vh;
 }
 
-/* Navbar horizontal */
-.navbar {
-  background: #0f2027;
-  padding: 20px 40px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+aside h2 {
+  margin-bottom: 30px;
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: bold;
+  background: linear-gradient(45deg, #8cadc9, #ccd2d8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.nav-links {
-  display: flex;
-  gap: 40px;
-}
-
-.nav-links a {
-  color: #e0f7ff;
-  font-weight: 600;
+aside a {
+  color: white;
   text-decoration: none;
-  font-size: 1.1rem;
-  padding: 8px 14px;
-  transition: 0.3s ease;
+  padding: 12px 18px;
+  border-radius: 10px;
+  transition: background-color 0.25s ease, transform 0.2s ease;
+  font-weight: 500;
 }
 
-.nav-links a:hover {
-  color: #66c1ff;
-  border-bottom: 2px solid #66c1ff;
+aside a:hover {
+  background: linear-gradient(to right, #698eb4, #6097c4);
+  color: white;
+  transform: translateX(5px);
 }
 
-.router-link-active {
-  color: #ffffff;
-  border-bottom: 2px solid #e0f7ff;
+/* === TOMBOL LOGOUT === */
+.logout-btn {
+  background-color: transparent;
+  border: 1px solid #fff;
+  color: white;
+  padding: 10px 16px;
+  margin-top: auto;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
-/* Konten utama */
-.content {
+.logout-btn:hover {
+  background-color: #234364;
+  transform: scale(1.05);
+}
+
+/* === MAIN CONTENT === */
+main {
   flex: 1;
+  padding: 40px;
+  background-color: #f9fafe;
   overflow-y: auto;
-  padding: 20px;
-}
-
-/* Responsive: Tablet & HP */
-@media (max-width: 768px) {
-  .nav-links {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .nav-links a {
-    font-size: 1rem;
-  }
 }
 </style>
